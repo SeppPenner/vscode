@@ -1,0 +1,47 @@
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: "10.15.1"
+
+- task: geeklearningio.gl-vsts-tasks-yarn.yarn-installer-task.YarnInstaller@2
+  inputs:
+    versionSpec: "1.10.1"
+
+- script: |
+    set -e
+
+    cat << EOF > ~/.netrc
+    machine monacotools.visualstudio.com
+    password $(VSO_PAT)
+    machine github.com
+    login vscode
+    password $(VSCODE_MIXIN_PASSWORD)
+    EOF
+
+    git config user.email "vscode@microsoft.com"
+    git config user.name "VSCode"
+    git remote add distro "https://github.com/$(VSCODE_MIXIN_REPO).git"
+    git fetch distro
+    git merge $(node -p "require('./package.json').distro")
+
+    CHILD_CONCURRENCY=1 yarn
+  displayName: Prepare build
+
+- script: |
+    set -e
+    VSCODE_MIXIN_PASSWORD="$(VSCODE_MIXIN_PASSWORD)" \
+    ./build/azure-pipelines/linux/build-arm.sh
+  displayName: Build
+
+- script: |
+    set -e
+    AZURE_DOCUMENTDB_MASTERKEY="$(AZURE_DOCUMENTDB_MASTERKEY)" \
+    AZURE_STORAGE_ACCESS_KEY_2="$(AZURE_STORAGE_ACCESS_KEY_2)" \
+    VSCODE_MIXIN_PASSWORD="$(VSCODE_MIXIN_PASSWORD)" \
+    VSCODE_HOCKEYAPP_TOKEN="$(VSCODE_HOCKEYAPP_TOKEN)" \
+    ./build/azure-pipelines/linux/publish-arm.sh
+  displayName: Publish
+
+- task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
+  displayName: 'Component Detection'
+  continueOnError: true
