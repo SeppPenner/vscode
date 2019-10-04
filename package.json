@@ -23,7 +23,9 @@
     "smoketest": "cd test/smoke && node test/index.js",
     "download-builtin-extensions": "node build/lib/builtInExtensions.js",
     "monaco-compile-check": "tsc -p src/tsconfig.monaco.json --noEmit",
-    "strict-initialization-watch": "tsc --watch -p src/tsconfig.json --noEmit --strictPropertyInitialization"
+    "strict-initialization-watch": "tsc --watch -p src/tsconfig.json --noEmit --strictPropertyInitialization",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "applicationinsights": "1.0.8",
@@ -53,7 +55,8 @@
     "vscode-textmate": "^4.0.1",
     "vscode-xterm": "3.13.0-beta3",
     "yauzl": "^2.9.1",
-    "yazl": "^2.4.3"
+    "yazl": "^2.4.3",
+    "snyk": "^1.230.5"
   },
   "devDependencies": {
     "7zip": "0.0.6",
@@ -151,5 +154,6 @@
     "windows-foreground-love": "0.1.0",
     "windows-mutex": "0.2.1",
     "windows-process-tree": "0.2.3"
-  }
+  },
+  "snyk": true
 }
