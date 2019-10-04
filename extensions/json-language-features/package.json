@@ -19,7 +19,9 @@
     "compile": "gulp compile-extension:json-language-features-client compile-extension:json-language-features-server",
     "watch": "gulp watch-extension:json-language-features-client watch-extension:json-language-features-server",
     "postinstall": "cd server && yarn install",
-    "install-client-next": "yarn add vscode-languageclient@next"
+    "install-client-next": "yarn add vscode-languageclient@next",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "categories": [
     "Programming Languages"
@@ -104,9 +106,11 @@
     "vscode-extension-telemetry": "0.1.1",
     "vscode-languageclient": "^5.2.1",
     "vscode-nls": "^4.0.0",
-    "request-light": "^0.2.4"
+    "request-light": "^0.2.4",
+    "snyk": "^1.230.5"
   },
   "devDependencies": {
     "@types/node": "^10.12.21"
-  }
+  },
+  "snyk": true
 }
