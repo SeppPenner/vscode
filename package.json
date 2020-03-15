@@ -25,7 +25,7 @@
     "monaco-compile-check": "tsc -p src/tsconfig.monaco.json --noEmit",
     "strict-initialization-watch": "tsc --watch -p src/tsconfig.json --noEmit --strictPropertyInitialization",
     "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "prepublish": "yarn run snyk-protect"
   },
   "dependencies": {
     "applicationinsights": "1.0.8",
@@ -56,7 +56,7 @@
     "vscode-xterm": "3.13.0-beta3",
     "yauzl": "^2.9.1",
     "yazl": "^2.4.3",
-    "snyk": "^1.230.5"
+    "snyk": "^1.299.0"
   },
   "devDependencies": {
     "7zip": "0.0.6",
